@@ -63,21 +63,17 @@ print(c(lower_bound,upper_bound))
 # H0:μ=100
 # Ha:μ>100
 mu0 <- 100
-# muO is a way to store the value null hypothesis mean under a value name. 
+# muO is a way to store the value null hypothesis mean under a value name. This is the hypothesized mean.
 t_value <- (sample.mean - mu0) / sample.se
 # The t value is used because the sample is less than 30 and it shows how far the sample mean is away from the null hypothesis. The t_value is -0.595.
 t_value
 # This shows the t value in the console
-p_value <- pt(abs(t_value), df, lower.tail = FALSE)
+df <- n-1
+p_value <- pt(t_value, df, lower.tail = FALSE)
 # the p value is used to compare against the a=0.05 to determine if we can reject the sample data based on the null hypothesis. I did tail=false because I am only interested in scores above 100 in the upper tail of the data. 
 p_value
 # The p value is 0.27 and this means that is is greater than 0.05. The null hypothesis cannot be rejected. 
 alpha <- 0.05
-if(p_value < alpha){
-  print("Reject H0: Average student IQ is greater than 100")
-} else {
-  print("Do not reject H0: Not enough evidence that average student IQ is greater than 100")
-}
 # The null hypothesis cannot be rejected because the p value of 0.27 is greater than the alpha value of 0.05. This means that there is not enough evidence that the average student IQ score in the teacher's class is higher than the national average. 
 
 
@@ -92,54 +88,34 @@ if(p_value < alpha){
 # Problem 2
 #####################
 expenditure <- read.table("https://raw.githubusercontent.com/ASDS-TCD/StatsI_2025/main/datasets/expenditure.txt", header=T)
-expenditure$Per_Capita_Expenditure_Housing <-expenditure$Y
+expenditure$Expenditure_Housing <-expenditure$Y
 # I am creating a new column within the expenditure data frame for Y 
-expenditure$Per_Capita_Personal_Income_State <-expenditure$X1
+expenditure$Personal_Income_State <-expenditure$X1
 # I am creating a new column within the expenditure data frame for X1.
-expenditure$Number_Residents_Financially_Insecure_Per_Hundred_Thousand <-expenditure$X2 
+expenditure$Financially_Insecure <-expenditure$X2 
 # I am creating a new column within the expenditure data frame for X2. 
-expenditure$Number_People_Residing_Urban_Areas_Per_Thousand <-expenditure$X3
+expenditure$Residents_Urban <-expenditure$X3
 # I am creating a new column within the expenditure data frame for X3.
-Per_Capita_Expenditure_Housing <-expenditure$Y
+Expenditure_Housing <-expenditure$Y
 # I am pulling out the new vector so that R recognizes it as Y. 
-Per_Capita_Personal_Income_State <-expenditure$X1
+Personal_Income_State <-expenditure$X1
 # I am pulling out the new vector so that R recognizes it as X1.  
-Number_Residents_Financially_Insecure_Per_Hundred_Thousand <-expenditure$X2
+Financially_Insecure <-expenditure$X2
 # I am pulling out the new vector so that R recognizes it as X2. 
-Number_People_Residing_Urban_Areas_Per_Thousand <-expenditure$X3
+Residents_Urban <-expenditure$X3
 #I am pulling out the new vector so that R recognizes it as X3.
-library(tidyverse)
-# I am working in ggplot and I need to restructure the data in the long format. This is because I am comparing multiple x variables to one y variable. 
-df_long <- pivot_longer(
-  df,
-  cols = c(Per_Capita_Personal_Income_State,
-           Number_Residents_Financially_Insecure_Per_Hundred_Thousand,
-           Number_People_Residing_Urban_Areas_Per_Thousand),
-  names_to = "Variable",
-  values_to = "X_value"
-)
 
-# I did the pretty labels to get rid of the dashes between the titles. 
-pretty_labels <- c(
-  Per_Capita_Personal_Income_State = "Per Capita Personal Income",
-  Number_Residents_Financially_Insecure_Per_Hundred_Thousand = "Financially Insecure Residents per 100,000",
-  Number_People_Residing_Urban_Areas_Per_Thousand = "Urban Residents per 1,000"
-)
+pdf("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my_answers/Scatterplot_variables.pdf")
+expenditure_vars <- expenditure[, c("Expenditure_Housing",
+                                    "Personal_Income_State",
+                                    "Financially_Insecure",
+                                    "Residents_Urban")]
+pairs(expenditure_vars,
+      main = "Scatterplot of Variables")
+# I using the pairs function to compare all the variables against each other in multiple scatter plots. 
+dev.off()
 
-# I am creating side by side scatter plots using ggplot.I used facet wrap because each x variable has a different scale it is measured by. I used the df long from the step above to be able to compare the multiple x variables against one y variable. 
-ggplot(df_long, aes(x = X_value, y = Per_Capita_Expenditure_Housing)) +
-  geom_point(color = "blue", size = 2, alpha = 0.7) +
-  facet_wrap(~Variable, scales = "free_x",
-             labeller = labeller(Variable = pretty_labels)) +
-  labs(
-    title = "Per Capita Housing Assistance vs X Values",
-    x = "X Values",
-    y = "Per Capita Expenditure on Housing Assistance"
-  ) +
-  theme_minimal()
-ggsave("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my_answers/Per_Capita_Housing_X_Values.pdf")
-# Per capita personal income and urban residents per 1,000 are positively related to each other, meaning states with higher incomes also tend to have more urban residents. Both of these predictors also show a positive relationship with per capita housing assistance: higher income and more urban residents correspond to higher housing expenditure. For financially insecure residents per 100,000, there is no clear relationship either with the other predictors or with housing assistance.
-
+# Housing expenditure is positively correlated with personal income and the number of residents living in urban areas. Personal income is also positively correlated with both housing expenditure and urban residents. The variable financially insecure does not appear to have a strong relationship with any of the other variables but shows a negative trend: higher financial insecurity is associated with lower housing expenditure and lower personal income. The number of urban residents is positively correlated with both personal income and housing expenditure. 
 
 
 
@@ -147,16 +123,13 @@ expenditure$Region <- factor(expenditure$Region,
                              levels = c(1, 2, 3, 4),
                              labels = c("Northeast", "North Central", "South", "West"))
 # I did this step to create the region value into a factor. I needed to do this change the numbers into labels to be used in the graph. 
-expenditure$Per_Capita_Expenditure <- expenditure$Y
-# I did this step to create a new value called Per Capita Expenditure that is part of the expenditure data set. 
 Region <-expenditure$Region
 # I created region as a new value as part of the expenditure data set. 
-avg_expenditure <- tapply(expenditure$Per_Capita_Expenditure, expenditure$Region, mean, na.rm = TRUE)
+avg_expenditure <- tapply(expenditure$Expenditure_Housing, expenditure$Region, mean, na.rm = TRUE)
 # I did this step to get the aggregate of the per capita expenditure per region for the graph by the mean.This created a new variable called avg_expenditure. 
 avg_expenditure
-Per_Capita_Expenditure <- expenditure$Y
 
-ggplot(expenditure, aes(x = Region, y = Per_Capita_Expenditure)) +
+ggplot(expenditure, aes(x = Region, y = Expenditure_Housing)) +
   geom_col(fill = "blue") + 
   labs(
     title = "Per Capita Expenditure Per Region for Housing Assistance",
@@ -169,14 +142,8 @@ ggsave("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my
 # The region that has the highest per capita expenditure on housing is the West. 
 
 
-expenditure$Per_Capita_Personal_Income_State <-expenditure$X1
-Per_Capita_Personal_Income_State <-expenditure$X1
-# I created a new variable name to name X1 to, "Per Capita Personal Income State."
-pdf("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my_answers/Per_Capita_Housing_Assistance.pdf")
-plot(Per_Capita_Personal_Income_State,Per_Capita_Expenditure,main="Per Capita Housing Assistance Vs.Personal Income",xlab="Per Capita Income In State",ylab="Per Capita Expenditure On Housing In State",
+plot(Personal_Income_State,Expenditure_Housing,main="Per Capita Housing Assistance Vs.Personal Income",xlab="Per Capita Income In State",ylab="Per Capita Expenditure On Housing In State",
      pch=19, frame=FALSE)
-dev.off()
-# I needed to do this part because this is not ggplot and has to be saved a special way.
 # The relationship that is displayed by the graph is that as per capita income in the state goes up, the per capita expenditure on housing also goes up. This is a positive correlation. 
 colors<-c("Northeast"="blue", "Northcentral"="green","South"="red","West"="yellow")
 symbols<-c("Northeast"=16,"Northcentral"=15,"South"=14,"West"=17)
@@ -186,17 +153,9 @@ region_colors<-colors[Region]
 region_symbols<-symbols[Region]
 # I am assigning a variable called region_symbols to represent symbols for the region variable. 
 pdf("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my_answers/Per_Capita_Housing_Assistance_Colors.pdf")
-plot(Per_Capita_Personal_Income_State,Per_Capita_Expenditure,main="Per Capita Housing Assistance Vs.Personal Income",xlab="Per Capita Income In State",ylab="Per Capita Expenditure On Housing In State",
-    pch=region_symbols,col=region_colors,frame=FALSE)
+plot(Personal_Income_State,Expenditure_Housing,main="Per Capita Housing Assistance Vs.Personal Income",xlab="Per Capita Income In State",ylab="Per Capita Expenditure On Housing In State",
+     pch=region_symbols,col=region_colors,frame=FALSE)
 legend("bottomright",legend=names(colors),col=colors,pch=symbols)
 # I am rewriting this code over again to include the newly created variables for color and the symbol. I also made a legend to show what the different symbols mean. 
 dev.off()
 #I did this because this is not ggplot and has to be saved a special way. 
-
-
-
-
-
-
-                      
-

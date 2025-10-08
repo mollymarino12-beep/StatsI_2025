@@ -115,7 +115,7 @@ pairs(expenditure_vars,
 # I using the pairs function to compare all the variables against each other in multiple scatter plots. 
 dev.off()
 
-# Housing expenditure is positively correlated with personal income and the number of residents living in urban areas. Personal income is also positively correlated with both housing expenditure and urban residents. The variable financially insecure does not appear to have a strong relationship with any of the other variables but shows a negative trend: higher financial insecurity is associated with lower housing expenditure and lower personal income. The number of urban residents is positively correlated with both personal income and housing expenditure. 
+# Housing expenditure is positively associated with personal income and the number of residents living in urban areas. Personal income is also positively associated with both housing expenditure and urban residents. The variable financially insecure does not appear to have a strong association with any of the other variables but shows a negative trend: higher financial insecurity is associated with lower housing expenditure and lower personal income. The number of urban residents is positively associated with both personal income and housing expenditure. 
 
 
 
@@ -144,7 +144,7 @@ ggsave("C:/Users/molly/OneDrive/Documents/GitHub/StatsI_2025/problemSets/PS01/my
 
 plot(Personal_Income_State,Expenditure_Housing,main="Per Capita Housing Assistance Vs.Personal Income",xlab="Per Capita Income In State",ylab="Per Capita Expenditure On Housing In State",
      pch=19, frame=FALSE)
-# The relationship that is displayed by the graph is that as per capita income in the state goes up, the per capita expenditure on housing also goes up. This is a positive correlation. 
+# The relationship that is displayed by the graph is that as per capita income in the state goes up, the per capita expenditure on housing also goes up. This is a positive association. 
 colors<-c("Northeast"="blue", "Northcentral"="green","South"="red","West"="yellow")
 symbols<-c("Northeast"=16,"Northcentral"=15,"South"=14,"West"=17)
 # I am assigning colors and symbols to the different regions. 

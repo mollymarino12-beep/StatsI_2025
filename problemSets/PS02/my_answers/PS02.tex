@@ -62,7 +62,7 @@
 
 \title{Problem Set 2}
 \date{Due: October 23, 2025}
-\author{Applied Stats/Quant Methods 1}
+\author{Molly Marino}
 
 \begin{document}
 	\maketitle
@@ -97,14 +97,16 @@
 	
 	\item [(a)]
 	Calculate the $\chi^2$ test statistic by hand/manually (even better if you can do "by hand" in \texttt{R}).\\
-	\vspace{7cm}
-	
+	\lstinputlisting[language=R, firstline=3, lastline=15]{PS02.R}  
+	\textit{ The X2 value is 3.79. I did this by finding the row totals, col totals and grand totals. This was used to find the expected values. I then found the chi-square contribution for each cell and added up all the contributions to get the x2 value. }
 	\item [(b)]
 	Now calculate the p-value from the test statistic you just created (in \texttt{R}).\footnote{Remember frequency should be $>$ 5 for all cells, but let's calculate the p-value here anyway.}  What do you conclude if $\alpha = 0.1$?\\
-	
+		\lstinputlisting[language=R, firstline=20, lastline=21]{PS02.R} 
+			\textit{The p-value is 0.15 and since the p value is greater than 0.1 I fail to reject the null hypothesis. This means that there is no significant evidence that class and outcome are related.}
 	\newpage
 	\item [(c)] Calculate the standardized residuals for each cell and put them in the table below.
 	\vspace{1cm}
+	\lstinputlisting[language=R, firstline=24, lastline=24]{PS02.R}
 	
 	\begin{table}[h]
 		\centering
@@ -112,16 +114,18 @@
 			& Not Stopped & Bribe requested & Stopped/given warning \\
 			\\[-1.8ex] 
 			\hline \\[-1.8ex]
-			Upper class  &  &  &  \\
+			Upper class  & 0.1360828 & -0.8153742 & 0.818923 \\
 			\\
-			Lower class &  &   &   \\
+			Lower class &-0.1825742 &1.0939393 & -1.098701  \\
 			
 		\end{tabular}
 	\end{table}
 	
 	
 	\vspace{7cm}
-	\item [(d)] How might the standardized residuals help you interpret the results?  
+	\item [(d)] How might the standardized residuals help you interpret the results?
+		
+		\textit{The standardized residuals show that none of the differences between observed and expected counts are large, meaning class and outcome appear to be independent.}
 	
 \end{enumerate}
 \newpage
@@ -136,18 +140,20 @@ Chattopadhyay and Duflo were interested in whether women promote different polic
 	\vspace{.5cm}
 	\centering
 	\label{fig:women_desc}
-	\includegraphics[width=1.1\textwidth]{../../../../graphics/women_desc.png}
 \end{figure}		
 
 \newpage
 \begin{enumerate}
-	\item [(a)] State a null and alternative (two-tailed) hypothesis. 
+	\item [(a)] State a null and alternative (two-tailed) hypothesis.
 	
+    \textit{H0= reservation policies do not change the number of new or repaired drinking water facilities in the villages. Ha= reservation policies do change the number of new or repaired drinking water facilities in the villages.}
 	\vspace{6cm}
 	\item [(b)] Run a bivariate regression to test this hypothesis in \texttt{R} (include your code!).
-	
+	\lstinputlisting[language=R, firstline=35, lastline=43]{PS02.R}
 	\vspace{6cm}
 	\item [(c)] Interpret the coefficient estimate for reservation policy. 
+	
+	\textit{The correlation coefficient is 9.255 for the reservation policy. For a one unit increase in reservation policy there is an increase in drinking water facilities of 9.25 units.}
 \end{enumerate}
 
 %\newpage

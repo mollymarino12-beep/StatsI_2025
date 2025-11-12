@@ -50,8 +50,8 @@ plot(inc.sub$difflog, inc.sub$voteshare,
      main = "Scatterplot of Presvote vs Difflog",
      pch = 19, col = "blue")
 abline(lm(presvote ~ difflog, data = inc.sub), col = "red", lwd = 2)
-residuals_model_1 <- residuals(model_bivar_2)
-head(residuals_model_1)
+residuals_model_2 <- residuals(model_bivar_2)
+head(residuals_model_2)
 
 
 
@@ -69,8 +69,8 @@ head(residuals_model_3)
 
 
 
-resid_model <- lm(residuals_model_1 ~ residuals_model_2)
-summary(resid_model)
+residual_model <- lm(residuals_model_1 ~ residuals_model_2)
+summary(residual_model)
 
 plot(residuals_model_2, residuals_model_1,
      xlab = "Residuals from Question 2",
@@ -78,7 +78,6 @@ plot(residuals_model_2, residuals_model_1,
      main = "Scatter Plot of Residuals from Question 1-2",
      pch = 19,
      col = "blue")
-residual_model <- lm(residuals_model_1 ~ residuals_model_2)
 abline(residual_model, col = "red", lwd = 2)
 
 model_multi_4 <- lm(voteshare ~ difflog + presvote, data = inc.sub)
